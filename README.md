@@ -1,14 +1,36 @@
-Trade Surveillance System 📈🚨
-A real-time and batch trade surveillance pipeline built to detect market manipulation, abnormal trading behavior, volume spikes, and price deviations. 
-The architecture leverages Kafka for stream ingestion, PySpark for scalable data processing & risk detection, DuckDB for analytical storage, 
-dbt for transformations & reporting data marts, and Apache Airflow for orchestration.
+# Trade Surveillance System 📈🚨
 
-🏗 System Architecture & Workflow
-Trade Generator -> Kafka Topic -> PySpark Streaming (Risk Detection & Aggregations) -> DuckDB (Raw & Cleaned Trades) 
--> dbt (Staging ➔ Intermediate ➔ Marts) -> Airflow Dag Orchestrator
+A real-time and batch trade surveillance pipeline built to detect market manipulation, abnormal trading behavior, volume spikes, and price deviations. The architecture leverages Kafka for stream ingestion, PySpark for scalable data processing & risk detection, DuckDB for analytical storage, dbt for transformations & reporting data marts, and Apache Airflow for orchestration.
 
-📁 Repository Structure
+---
 
+## 🏗 System Architecture & Workflow
+
+```text
+[ Trade Generator ]
+        │
+        ▼
+  [ Kafka Topic ]
+        │
+        ▼
+[ PySpark Streaming ] (Risk Detection & Aggregations)
+        │
+        ▼
+    [ DuckDB ] (Raw & Cleaned Trades)
+        │
+        ▼
+      [ dbt ] (Staging -> Intermediate -> Marts)
+        │
+        ▼
+[ Airflow DAG Orchestrator ]
+```
+
+---
+
+## 📁 Repository Structure
+
+```text
+.
 ├── config/                  # Kafka, PySpark, and environment configurations
 ├── dbt/                     # dbt transformation models and tests
 │   └── trade_surveillance/
@@ -24,13 +46,17 @@ Trade Generator -> Kafka Topic -> PySpark Streaming (Risk Detection & Aggregatio
 ├── docker-compose.yml       # Containerized environment setup
 ├── requirements.txt         # Python dependencies
 └── README.md
+```
 
+---
 
+## 🛠 Tech Stack
 
-🛠 Tech Stack Used :
-Streaming / Ingestion: Apache Kafka, Python (kafka-python-ng)
-Processing: PySpark (Spark Streaming & Batch)
-Storage: DuckDB
-Data Transformation: dbt (dbt-duckdb)
-Orchestration: Apache Airflow
-Containerization: Docker & Docker Compose
+* **Streaming / Ingestion:** Apache Kafka, Python (`kafka-python-ng`)
+* **Processing:** PySpark (Spark Streaming & Batch)
+* **Storage:** DuckDB
+* **Data Transformation:** dbt (`dbt-duckdb`)
+* **Orchestration:** Apache Airflow
+* **Containerization:** Docker & Docker Compose
+
+---
