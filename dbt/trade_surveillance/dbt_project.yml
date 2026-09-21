@@ -1,0 +1,11 @@
+name: 'trade_surveillance'
+version: '1.0.0'
+profile: 'trade_surveillance'
+models:
+  trade_surveillance:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: table
+    marts:
+      +materialized: table
