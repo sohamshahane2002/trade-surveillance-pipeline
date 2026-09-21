@@ -4,22 +4,8 @@ The architecture leverages Kafka for stream ingestion, PySpark for scalable data
 dbt for transformations & reporting data marts, and Apache Airflow for orchestration.
 
 🏗 System Architecture & Workflow
-      [ Trade Generator ]
-               │
-               ▼
-        [ Kafka Topic ]
-               │
-               ▼
-     [ PySpark Streaming ] ──(Risk Detection & Aggregations)
-               │
-               ▼
-         [ DuckDB ] ──(Raw & Cleaned Trades)
-               │
-               ▼
-          [ dbt ] ──(Staging ➔ Intermediate ➔ Marts)
-               │
-               ▼
-     [ Airflow Dag Orchestrator ]
+Trade Generator -> Kafka Topic -> PySpark Streaming (Risk Detection & Aggregations) -> DuckDB (Raw & Cleaned Trades) 
+-> dbt (Staging ➔ Intermediate ➔ Marts) -> Airflow Dag Orchestrator
 
 📁 Repository Structure
 
