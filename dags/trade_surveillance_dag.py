@@ -16,7 +16,7 @@ default_args = {
 # ── DAG Definition ────────────────────────────────────────
 with DAG(
     dag_id='trade_surveillance_pipeline',
-    description='End to end trade surveillance pipeline — JP Morgan project',
+    description='End to end trade surveillance pipeline -Portfolio project',
     default_args=default_args,
     schedule_interval='0 6 * * 1-5',  # weekdays at 6 AM
     start_date=days_ago(1),
@@ -52,13 +52,13 @@ with DAG(
     )
 
     # ── Task 3: Run dbt Models ───────────────────────────
-    run_dbt = BashOperator(
-        task_id='run_dbt_models',
+    run_dbt_models = BashOperator(
+        task_id="run_dbt_models",
         bash_command=(
-            'cd /opt/airflow/dbt/trade_surveillance && '
-            'python3 -m dbt run --profiles-dir /opt/airflow/dbt'
+            "cd /opt/airflow/dbt/trade_surveillance && "
+            "/home/airflow/dbt_venv/bin/dbt run --profiles-dir /opt/airflow/dbt"
         ),
-        execution_timeout=timedelta(minutes=5),
+        execution_timeout=timedelta(minutes=10),
     )
 
     # ── Task 4: Run dbt Tests ────────────────────────────
@@ -66,7 +66,7 @@ with DAG(
         task_id='run_dbt_tests',
         bash_command=(
             'cd /opt/airflow/dbt/trade_surveillance && '
-            'python3 -m dbt test --profiles-dir /opt/airflow/dbt'
+            '/home/airflow/dbt_venv/bin/dbt test --profiles-dir /opt/airflow/dbt'
         ),
         execution_timeout=timedelta(minutes=5),
     )
@@ -86,6 +86,6 @@ with DAG(
 
     # ── Sequential Dependency Flow ────────────────────────
     # Producer generates data -> Spark reads & loads to DuckDB -> dbt transforms -> dbt tests -> complete
-    run_producer >> run_spark >> run_dbt >> run_dbt_tests >> pipeline_complete
+    run_producer >> run_spark >> run_dbt_models >> run_dbt_tests >> pipeline_complete
 
     

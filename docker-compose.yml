@@ -34,13 +34,17 @@ services:
     depends_on:
       - kafka
     working_dir: /app
+    environment:
+      - DUCKDB_PATH=/app/data/trade_surveillance.duckdb
     volumes:
       - ./:/app
     command: tail -f /dev/null
     tty: true
 
   airflow:
-    image: apache/airflow:2.8.1
+    build:
+      context: .
+      dockerfile: docker/airflow/dockerfile
     container_name: airflow
     user: "50000:0"
     depends_on:
@@ -51,11 +55,9 @@ services:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
-      - _AIRFLOW_WWW_USER_USERNAME=admin
-      - _AIRFLOW_WWW_USER_PASSWORD=admin
-      - PIP_ADDITIONAL_REQUIREMENTS=kafka-python-ng loguru python-dotenv
-      - PIP_ADDITIONAL_REQUIREMENTS=kafka-python-ng loguru python-dotenv faker
-      - PIP_ADDITIONAL_REQUIREMENTS=kafka-python-ng loguru python-dotenv faker dbt-duckdb
+      - AIRFLOW__WEBSERVER__WORKERS=2
+      - AIRFLOW__WEBSERVER__WEB_SERVER_MASTER_TIMEOUT=300
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs

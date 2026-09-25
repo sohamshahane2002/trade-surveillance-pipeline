@@ -1,0 +1,7 @@
+trade_surveillance:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: /opt/airflow/data/trade_surveillance.duckdb
+      threads: 4

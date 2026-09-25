@@ -22,3 +22,21 @@ logs/
 
 # Notes / Personal link files
 prjct claude link.txt
+
+
+# Spark Checkpoints & Local Data
+data/
+logs/
+__pycache__/
+*.pyc
+
+# dbt generated profiles & local state
+dbt/.user.yml
+dbt/trade_surveillance/target/
+dbt/trade_surveillance/dbt_packages/
+dbt/trade_surveillance/logs/
+
+# Environment & Python
+.env
+venv/
+.venv/
